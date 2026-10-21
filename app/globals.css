@@ -1,0 +1,147 @@
+@import "tailwindcss";
+
+/* =========================================================================
+   Design tokens — Tailwind 4 (CSS-first)
+   ========================================================================= */
+@theme {
+  /* Typography — Inter (UI) + JetBrains Mono (data, scores, counts) */
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+
+  /* Refined dark palette — slate/zinc base with two disciplined accents */
+  --color-surface: #07080f;
+  --color-surface-raised: #0c0e18;
+
+  --color-neon-cyan: #2dd4bf;
+  --color-neon-purple: #a78bfa;
+  --color-neon-emerald: #34d399;
+  --color-neon-pink: #f472b6;
+  --color-neon-amber: #fbbf24;
+
+  /* Animations */
+  --animate-fade-in-up: fade-in-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+
+  @keyframes fade-in-up {
+    0% {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+:root {
+  --background: #07080f;
+  --foreground: #e2e8f0;
+}
+
+* {
+  border-color: rgba(255, 255, 255, 0.06);
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Numeric data always sets on its lining, even when browsers default otherwise */
+.tabular,
+[data-value] {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Ambient background glow */
+.ambient-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 60% 40% at 15% 10%, rgba(45, 212, 191, 0.07), transparent),
+    radial-gradient(ellipse 50% 40% at 85% 15%, rgba(167, 139, 250, 0.07), transparent),
+    radial-gradient(ellipse 60% 50% at 50% 95%, rgba(52, 211, 153, 0.05), transparent),
+    var(--background);
+}
+
+/* Glass card */
+.glass {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.glass-strong {
+  background: rgba(10, 12, 24, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* Skeleton shimmer */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.04) 0%,
+    rgba(255, 255, 255, 0.1) 40%,
+    rgba(255, 255, 255, 0.04) 80%
+  );
+  background-size: 700px 100%;
+  animation: shimmer 1.5s infinite linear;
+  border-radius: 8px;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -700px 0;
+  }
+  100% {
+    background-position: 700px 0;
+  }
+}
+
+/* Invalid-search shake */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
+}
+
+/* Focus surfaces — visible, disciplined */
+:focus-visible {
+  outline: 2px solid rgba(45, 212, 191, 0.7);
+  outline-offset: 2px;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Recharts dark tuning */
+.recharts-default-tooltip {
+  background: rgba(10, 12, 24, 0.85) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 12px !important;
+  backdrop-filter: blur(8px);
+}

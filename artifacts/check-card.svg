@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="400" viewBox="0 0 760 400"><rect width="760" height="400" rx="16" fill="#2e3440"/>
+<linearGradient id="sheen" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#88c0d0" stop-opacity="0.10"/>
+      <stop offset="1" stop-color="#a3be8c" stop-opacity="0.04"/>
+    </linearGradient>
+<rect width="760" height="400" rx="16" fill="url(#sheen)"/>
+<linearGradient id="chipGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#88c0d0"/>
+      <stop offset="1" stop-color="#a3be8c"/>
+    </linearGradient>
+<linearGradient id="numGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#a3be8c"/>
+      <stop offset="1" stop-color="#88c0d0"/>
+    </linearGradient>
+<clipPath id="avc"><circle cx="56" cy="56" r="28"/></clipPath>
+<image href="https://api.dicebear.com/9.x/bottts-neutral/svg?seed=torvalds" x="28" y="28" width="56" height="56" preserveAspectRatio="xMidYMid slice" clip-path="url(#avc)"/>
+<text x="100" y="50" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="17" font-weight="700" fill="#eceff4">@torvalds</text>
+<text x="100" y="74" font-family="'JetBrains Mono', 'SFMono-Regular', 'Consolas', 'Liberation Mono', monospace" font-size="13" fill="#a6b1c6">@torvalds</text>
+<rect x="684" y="39" width="48" height="34" rx="17" fill="url(#chipGrad)"/>
+<rect x="685" y="40" width="46" height="32" rx="16" fill="none" stroke="rgba(255,255,255,0.22)" stroke-opacity="0.35"/>
+<text x="708" y="62" text-anchor="middle" font-family="'JetBrains Mono', 'SFMono-Regular', 'Consolas', 'Liberation Mono', monospace" font-size="16" font-weight="700" fill="#0b0e14">B</text>
+<line x1="28" y1="104" x2="732" y2="104" stroke="#4c566a" stroke-width="1"/>
+<text x="28" y="136" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="10" letter-spacing="3" font-weight="600" fill="#a6b1c6">DEVSCORE</text>
+<text x="28" y="196" font-family="'JetBrains Mono', 'SFMono-Regular', 'Consolas', 'Liberation Mono', monospace" font-size="58" font-weight="700" fill="url(#numGrad)">64</text>
+<text x="28" y="212" font-family="'JetBrains Mono', 'SFMono-Regular', 'Consolas', 'Liberation Mono', monospace" font-size="13" fill="#a6b1c6">/ 100</text>
+<rect x="28" y="222" width="258" height="6" rx="3" fill="rgba(255,255,255,0.08)"/>
+<rect x="28" y="222" width="165.12" height="6" rx="3" fill="url(#numGrad)"/>
+<text x="28" y="248" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="10" letter-spacing="2" font-weight="600" fill="#a6b1c6">COMMITS</text>
+<text x="286" y="248" text-anchor="end" font-family="'JetBrains Mono', 'SFMono-Regular', 'Consolas', 'Liberation Mono', monospace" font-size="14" font-weight="600" fill="#eceff4">1.8k</text>
+<text x="28" y="272" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="10" letter-spacing="2" font-weight="600" fill="#a6b1c6">STARS</text>
+<text x="286" y="272" text-anchor="end" font-family="'JetBrains Mono', 'SFMono-Regular', 'Consolas', 'Liberation Mono', monospace" font-size="14" font-weight="600" fill="#eceff4">1.2k</text>
+<text x="28" y="296" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="10" letter-spacing="2" font-weight="600" fill="#a6b1c6">MERGED PRS</text>
+<text x="286" y="296" text-anchor="end" font-family="'JetBrains Mono', 'SFMono-Regular', 'Consolas', 'Liberation Mono', monospace" font-size="14" font-weight="600" fill="#eceff4">96</text>
+<text x="28" y="320" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="10" letter-spacing="2" font-weight="600" fill="#a6b1c6">REPOS</text>
+<text x="286" y="320" text-anchor="end" font-family="'JetBrains Mono', 'SFMono-Regular', 'Consolas', 'Liberation Mono', monospace" font-size="14" font-weight="600" fill="#eceff4">5</text>
+<rect x="28" y="338" width="168" height="34" rx="17" fill="rgba(76,86,106,0.55)" stroke="#22d3ee" stroke-opacity="0.55"/>
+<text x="42" y="361" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="15" fill="#eceff4">🤖 PR Machine</text>
+<text x="360" y="136" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="10" letter-spacing="3" font-weight="600" fill="#a6b1c6">LANGUAGES</text>
+<rect x="360.0" y="148" width="122.1" height="8" rx="3" fill="#3178c6"/>
+<rect x="485.1" y="148" width="78.9" height="8" rx="3" fill="#dea584"/>
+<rect x="567.0" y="148" width="67.5" height="8" rx="3" fill="#00ADD8"/>
+<rect x="637.5" y="148" width="44.3" height="8" rx="3" fill="#3572A5"/>
+<rect x="684.7" y="148" width="25.7" height="8" rx="3" fill="#f1e05a"/>
+<rect x="713.4" y="148" width="18.6" height="8" rx="3" fill="#89e051"/>
+<circle cx="364" cy="172" r="4" fill="#3178c6"/>
+<text x="374" y="176" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="13" fill="#eceff4">TypeScript</text>
+<text x="538" y="176" text-anchor="end" font-family="'JetBrains Mono', 'SFMono-Regular', 'Consolas', 'Liberation Mono', monospace" font-size="12" fill="#a6b1c6">34.2%</text>
+<circle cx="550" cy="172" r="4" fill="#dea584"/>
+<text x="560" y="176" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="13" fill="#eceff4">Rust</text>
+<text x="724" y="176" text-anchor="end" font-family="'JetBrains Mono', 'SFMono-Regular', 'Consolas', 'Liberation Mono', monospace" font-size="12" fill="#a6b1c6">22.1%</text>
+<circle cx="364" cy="194" r="4" fill="#00ADD8"/>
+<text x="374" y="198" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="13" fill="#eceff4">Go</text>
+<text x="538" y="198" text-anchor="end" font-family="'JetBrains Mono', 'SFMono-Regular', 'Consolas', 'Liberation Mono', monospace" font-size="12" fill="#a6b1c6">18.9%</text>
+<circle cx="550" cy="194" r="4" fill="#3572A5"/>
+<text x="560" y="198" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="13" fill="#eceff4">Python</text>
+<text x="724" y="198" text-anchor="end" font-family="'JetBrains Mono', 'SFMono-Regular', 'Consolas', 'Liberation Mono', monospace" font-size="12" fill="#a6b1c6">12.4%</text>
+<circle cx="364" cy="216" r="4" fill="#f1e05a"/>
+<text x="374" y="220" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="13" fill="#eceff4">JavaScript</text>
+<text x="538" y="220" text-anchor="end" font-family="'JetBrains Mono', 'SFMono-Regular', 'Consolas', 'Liberation Mono', monospace" font-size="12" fill="#a6b1c6">7.2%</text>
+<circle cx="550" cy="216" r="4" fill="#89e051"/>
+<text x="560" y="220" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="13" fill="#eceff4">Shell</text>
+<text x="724" y="220" text-anchor="end" font-family="'JetBrains Mono', 'SFMono-Regular', 'Consolas', 'Liberation Mono', monospace" font-size="12" fill="#a6b1c6">5.2%</text>
+<text x="360" y="274" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="10" letter-spacing="3" font-weight="600" fill="#a6b1c6">TOP REPOSITORIES</text>
+<path d="M12 2l2.9 6.28 6.85.62-5.19 4.55 1.54 6.69L12 16.63 5.9 20.14l1.54-6.69L2.25 8.9l6.85-.62L12 2z" fill="#a3be8c" transform="translate(360.0 281.0) scale(0.500)"/>
+<text x="372" y="292" text-anchor="end" font-family="'JetBrains Mono', 'SFMono-Regular', 'Consolas', 'Liberation Mono', monospace" font-size="13" font-weight="600" fill="#eceff4">500</text>
+<text x="424" y="292" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="13" fill="#eceff4">cookie-data</text>
+<path d="M12 2l2.9 6.28 6.85.62-5.19 4.55 1.54 6.69L12 16.63 5.9 20.14l1.54-6.69L2.25 8.9l6.85-.62L12 2z" fill="#a3be8c" transform="translate(360.0 308.0) scale(0.500)"/>
+<text x="372" y="319" text-anchor="end" font-family="'JetBrains Mono', 'SFMono-Regular', 'Consolas', 'Liberation Mono', monospace" font-size="13" font-weight="600" fill="#eceff4">421</text>
+<text x="424" y="319" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="13" fill="#eceff4">meteor-api</text>
+<path d="M12 2l2.9 6.28 6.85.62-5.19 4.55 1.54 6.69L12 16.63 5.9 20.14l1.54-6.69L2.25 8.9l6.85-.62L12 2z" fill="#a3be8c" transform="translate(360.0 335.0) scale(0.500)"/>
+<text x="372" y="346" text-anchor="end" font-family="'JetBrains Mono', 'SFMono-Regular', 'Consolas', 'Liberation Mono', monospace" font-size="13" font-weight="600" fill="#eceff4">188</text>
+<text x="424" y="346" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="13" fill="#eceff4">neon-ui</text>
+<path d="M12 2l2.9 6.28 6.85.62-5.19 4.55 1.54 6.69L12 16.63 5.9 20.14l1.54-6.69L2.25 8.9l6.85-.62L12 2z" fill="#a3be8c" transform="translate(360.0 362.0) scale(0.500)"/>
+<text x="372" y="373" text-anchor="end" font-family="'JetBrains Mono', 'SFMono-Regular', 'Consolas', 'Liberation Mono', monospace" font-size="13" font-weight="600" fill="#eceff4">96</text>
+<text x="424" y="373" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="13" fill="#eceff4">rust-scripts</text>
+<path d="M12 2l2.9 6.28 6.85.62-5.19 4.55 1.54 6.69L12 16.63 5.9 20.14l1.54-6.69L2.25 8.9l6.85-.62L12 2z" fill="#a3be8c" transform="translate(360.0 389.0) scale(0.500)"/>
+<text x="372" y="400" text-anchor="end" font-family="'JetBrains Mono', 'SFMono-Regular', 'Consolas', 'Liberation Mono', monospace" font-size="13" font-weight="600" fill="#eceff4">32</text>
+<text x="424" y="400" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="13" fill="#eceff4">walletd</text>
+<text x="732" y="383" text-anchor="end" font-family="'JetBrains Mono', 'SFMono-Regular', 'Consolas', 'Liberation Mono', monospace" font-size="10" letter-spacing="1" fill="#a6b1c6">DEVSCORE VISUALIZER</text></svg>

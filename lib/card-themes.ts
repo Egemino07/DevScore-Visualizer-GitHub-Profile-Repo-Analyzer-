@@ -1,0 +1,127 @@
+import type { CardTheme, CardThemeId } from "@/types/github";
+
+export const CARD_THEMES: Record<CardThemeId, CardTheme> = {
+  "github-dark": {
+    id: "github-dark",
+    name: "GitHub Dark",
+    bg: "linear-gradient(135deg, #0d1117 0%, #161b22 100%)",
+    bgSolid: "#0d1117",
+    text: "#e6edf3",
+    subtext: "#9da7b3",
+    accent: "#238636",
+    accent2: "#58a6ff",
+    border: "#30363d",
+    chipBg: "rgba(110,118,129,0.18)",
+  },
+  dracula: {
+    id: "dracula",
+    name: "Dracula",
+    bg: "linear-gradient(135deg, #282a36 0%, #44475a 100%)",
+    bgSolid: "#282a36",
+    text: "#f8f8f2",
+    subtext: "#a3a7c9",
+    accent: "#bd93f9",
+    accent2: "#ff79c6",
+    border: "#44475a",
+    chipBg: "rgba(98,114,164,0.35)",
+  },
+  cyberpunk: {
+    id: "cyberpunk",
+    name: "Cyberpunk",
+    bg: "linear-gradient(135deg, #170229 0%, #2b0a3d 60%, #4b0f6e 100%)",
+    bgSolid: "#170229",
+    text: "#f0f4ff",
+    subtext: "#9a8fc0",
+    accent: "#05d9e8",
+    accent2: "#ff2a6d",
+    border: "#5b2a86",
+    chipBg: "rgba(255,42,109,0.14)",
+  },
+  nord: {
+    id: "nord",
+    name: "Nord",
+    bg: "linear-gradient(135deg, #2e3440 0%, #3b4252 100%)",
+    bgSolid: "#2e3440",
+    text: "#eceff4",
+    subtext: "#a6b1c6",
+    accent: "#88c0d0",
+    accent2: "#a3be8c",
+    border: "#4c566a",
+    chipBg: "rgba(76,86,106,0.55)",
+  },
+  "one-dark": {
+    id: "one-dark",
+    name: "One Dark",
+    bg: "linear-gradient(135deg, #282c34 0%, #21252b 100%)",
+    bgSolid: "#282c34",
+    text: "#c8ccd4",
+    subtext: "#8b93a3",
+    accent: "#98c379",
+    accent2: "#e5c07b",
+    border: "#3e4451",
+    chipBg: "rgba(62,68,81,0.55)",
+  },
+};
+
+export const THEME_ORDER: CardThemeId[] = [
+  "github-dark",
+  "dracula",
+  "cyberpunk",
+  "nord",
+  "one-dark",
+];
+
+export const LANGUAGE_COLORS: Record<string, string> = {
+  JavaScript: "#f1e05a",
+  TypeScript: "#3178c6",
+  Python: "#3572A5",
+  Rust: "#dea584",
+  Go: "#00ADD8",
+  C: "#555555",
+  "C++": "#f34b7d",
+  "C#": "#178600",
+  Java: "#b07219",
+  Ruby: "#701516",
+  PHP: "#4F5D95",
+  Swift: "#F05138",
+  Kotlin: "#A97BFF",
+  Shell: "#89e051",
+  HTML: "#e34c26",
+  CSS: "#563d7c",
+  SCSS: "#c6538c",
+  Vue: "#41b883",
+  Dart: "#00B4AB",
+  Lua: "#000080",
+  Haskell: "#5e5086",
+  Elixir: "#6e4a7e",
+  Zig: "#ec915c",
+  OCaml: "#ef7a08",
+  Clojure: "#db5855",
+  R: "#198CE7",
+  Perl: "#0298c3",
+  Scala: "#c22d40",
+  Solidity: "#AA6746",
+  Assembly: "#6E4C13",
+  Jupyter: "#DA5B0B",
+  "Objective-C": "#438eff",
+  Makefile: "#427819",
+  Dockerfile: "#384d54",
+  Hack: "#878787",
+  Nim: "#ffc200",
+  Julia: "#a270ba",
+  Vim: "#199f4b",
+  Svelte: "#ff3e00",
+  Nix: "#7e7eff",
+  Erlang: "#B83998",
+  "F#": "#b845fc",
+  Others: "#8b949e",
+};
+
+export function languageColor(name: string): string {
+  if (LANGUAGE_COLORS[name]) return LANGUAGE_COLORS[name];
+  // deterministic fallback hue from name
+  let hash = 0;
+  for (const ch of name) hash = (hash * 31 + ch.charCodeAt(0)) & 0xffffff;
+  const hue = hash % 360;
+  return `hsl(${hue}, 60%, 55%)`;
+}
