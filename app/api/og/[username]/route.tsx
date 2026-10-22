@@ -95,15 +95,21 @@ function CardMarkup({
 }) {
   const { user, totals, devScore } = payload;
 
-  const hasName = Boolean(user.name) && user.name !== user.login;
-
-  const langSegs = payload.languages.slice(0, 6);
+  const hasName = Boolean(user.name) && user.name !== user.login;    const langSegs = payload.languages.slice(0, 6);
   const topRepos = [...payload.repos]
     .filter((r) => !r.fork && r.stargazers_count > 0)
     .sort((a, b) => b.stargazers_count - a.stargazers_count)
     .slice(0, 5);
   const showLangs = design.showLanguages && langSegs.length > 0;
   const showRepos = design.showTopRepos && topRepos.length > 0;
+
+  // explicit pixel geometry for satori (no % widths / gap shorthand / auto margins)
+  const BAR_GAP = 3;
+  const barWidths = langSegs.map(
+    (l) => Math.max(l.percentage, 2) / 100 * (448 - (langSegs.length - 1) * BAR_GAP)
+  );
+  const legendRows: typeof langSegs[] = [];
+  for (let i = 0; i < langSegs.length; i += 2) legendRows.push(langSegs.slice(i, i + 2));
 
   return (
     <div
@@ -160,30 +166,32 @@ function CardMarkup({
             ) : null}
           </div>
         </div>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            height: 34,
-            borderRadius: 17,
-            padding: "0 16px",
-            backgroundImage: `linear-gradient(135deg, ${theme.accent} 0%, ${theme.accent2} 100%)`,
-            border: "1px solid rgba(255,255,255,0.22)",
-          }}
-        >
+        {design.showDevScore ? (
           <div
             style={{
-              fontSize: 16,
-              fontWeight: 700,
-              color: "#0b0e14",
-              fontFamily: MONO_STACK,
               display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              height: 34,
+              borderRadius: 17,
+              padding: "0 16px",
+              backgroundImage: `linear-gradient(135deg, ${theme.accent} 0%, ${theme.accent2} 100%)`,
+              border: "1px solid rgba(255,255,255,0.22)",
             }}
           >
-            {devScore.grade}
+            <div
+              style={{
+                fontSize: 16,
+                fontWeight: 700,
+                color: "#0b0e14",
+                fontFamily: MONO_STACK,
+                display: "flex",
+              }}
+            >
+              {devScore.grade}
+            </div>
           </div>
-        </div>
+        ) : null}
       </div>
 
       {/* hairline divider */}
@@ -197,14 +205,15 @@ function CardMarkup({
       />
 
       {/* ------------------------------- body --------------------------------- */}
-      <div
-        style={{
-          display: "flex",
-          flex: 1,
-          marginTop: 26,
-          justifyContent: "space-between",
-        }}
-      >
+        {/* body */}
+        <div
+          style={{
+            display: "flex",
+            height: 236,
+            marginTop: 26,
+            justifyContent: "space-between",
+          }}
+        >
         {/* left column */}
         <div
           style={{
@@ -224,18 +233,20 @@ function CardMarkup({
                   fontWeight: 600,
                   color: theme.subtext,
                   display: "flex",
+                  height: 12,
                 }}
               >
                 DEVSCORE
               </div>
               <div
                 style={{
-                  fontSize: 58,
+                  fontSize: 48,
                   fontWeight: 700,
                   color: theme.accent2,
-                  marginTop: 6,
+                  marginTop: 4,
                   fontFamily: MONO_STACK,
                   display: "flex",
+                  height: 50,
                 }}
               >
                 {devScore.score}
@@ -244,10 +255,11 @@ function CardMarkup({
                 style={{
                   fontSize: 13,
                   color: theme.subtext,
-                  marginTop: 2,
+                  marginTop: 0,
                   fontFamily: MONO_STACK,
                   letterSpacing: 1,
                   display: "flex",
+                  height: 16,
                 }}
               >
                 / 100
@@ -259,7 +271,7 @@ function CardMarkup({
                   height: 6,
                   borderRadius: 3,
                   background: "rgba(255,255,255,0.08)",
-                  marginTop: 10,
+                  marginTop: 8,
                   display: "flex",
                 }}
               >
@@ -283,8 +295,8 @@ function CardMarkup({
             style={{
               display: "flex",
               flexDirection: "column",
-              marginTop: 26,
-              gap: 4,
+              marginTop: 12,
+              gap: 2,
             }}
           >
             {[
@@ -299,7 +311,7 @@ function CardMarkup({
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "space-between",
-                  height: 24,
+                  height: 21,
                 }}
               >
                 <div
@@ -368,7 +380,7 @@ function CardMarkup({
           }}
         >
           {showLangs ? (
-            <>
+            <div style={{ display: "flex", flexDirection: "column" }}>
               <div
                 style={{
                   fontSize: 10,
@@ -376,20 +388,23 @@ function CardMarkup({
                   fontWeight: 600,
                   color: theme.subtext,
                   display: "flex",
+                  height: 12,
                 }}
               >
                 LANGUAGES
               </div>
               <div
-                style={{ display: "flex", gap: 3, height: 8, marginTop: 12 }}
+                style={{ display: "flex", height: 8, marginTop: 10, width: 448 }}
               >
-                {langSegs.map((l) => (
+                {langSegs.map((l, i) => (
                   <div
                     key={l.name}
                     style={{
-                      width: `${Math.max(l.percentage, 2)}%`,
+                      width: barWidths[i],
+                      height: 8,
                       background: l.color,
                       borderRadius: 3,
+                      marginRight: i < langSegs.length - 1 ? BAR_GAP : 0,
                     }}
                   />
                 ))}
@@ -397,71 +412,84 @@ function CardMarkup({
               <div
                 style={{
                   display: "flex",
-                  flexWrap: "wrap",
-                  gap: "8px 16px",
-                  marginTop: 16,
+                  flexDirection: "column",
+                  marginTop: 10,
                 }}
               >
-                {langSegs.map((l) => (
+                {legendRows.map((row, r) => (
                   <div
-                    key={l.name}
+                    key={r}
                     style={{
                       display: "flex",
                       alignItems: "center",
-                      fontSize: 13,
-                      color: theme.text,
-                      width: 216,
+                      height: 18,
                     }}
                   >
-                    <div
-                      style={{
-                        width: 9,
-                        height: 9,
-                        borderRadius: 5,
-                        background: l.color,
-                        marginRight: 8,
-                      }}
-                    />
-                    <div
-                      style={{
-                        display: "flex",
-                        maxWidth: 128,
-                        whiteSpace: "nowrap",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                      }}
-                    >
-                      {l.name}
-                    </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        marginLeft: "auto",
-                        fontSize: 12,
-                        color: theme.subtext,
-                        fontFamily: MONO_STACK,
-                      }}
-                    >
-                      {`${l.percentage.toFixed(1)}%`}
-                    </div>
+                    {row.map((l) => (
+                      <div
+                        key={l.name}
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          width: 224,
+                        }}
+                      >
+                        <div
+                          style={{
+                            width: 9,
+                            height: 9,
+                            borderRadius: 5,
+                            background: l.color,
+                            marginRight: 8,
+                          }}
+                        />
+                        <div
+                          style={{
+                            display: "flex",
+                            width: 132,
+                            fontSize: 13,
+                            color: theme.text,
+                            whiteSpace: "nowrap",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                          }}
+                        >
+                          {l.name}
+                        </div>
+                        <div
+                          style={{
+                            display: "flex",
+                            width: 56,
+                            marginLeft: 6,
+                            fontSize: 12,
+                            color: theme.subtext,
+                            fontFamily: MONO_STACK,
+                            justifyContent: "flex-end",
+                          }}
+                        >
+                          {`${l.percentage.toFixed(1)}%`}
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 ))}
               </div>
-            </>
+            </div>
           ) : (
             <div style={{ display: "flex" }} />
           )}
 
           {showRepos ? (
-            <>
+            <div style={{ display: "flex", flexDirection: "column" }}>
               <div
                 style={{
                   fontSize: 10,
                   letterSpacing: 3,
                   fontWeight: 600,
                   color: theme.subtext,
-                  marginTop: showLangs ? 32 : 0,
+                  marginTop: showLangs ? 20 : 0,
                   display: "flex",
+                  height: 12,
                 }}
               >
                 TOP REPOSITORIES
@@ -470,7 +498,7 @@ function CardMarkup({
                 style={{
                   display: "flex",
                   flexDirection: "column",
-                  marginTop: 16,
+                  marginTop: 8,
                 }}
               >
                 {topRepos.map((repo) => (
@@ -479,8 +507,7 @@ function CardMarkup({
                     style={{
                       display: "flex",
                       alignItems: "center",
-                      height: 24,
-                      marginBottom: 2,
+                      height: 20,
                     }}
                   >
                     <StarIcon color={theme.accent2} />
@@ -507,11 +534,10 @@ function CardMarkup({
                       }}
                     >
                       {repo.name}
-                    </div>
-                  </div>
-                ))}
+                    </div>                    </div>
+                  ))}
               </div>
-            </>
+            </div>
           ) : (
             !showLangs && (
               <div style={{ fontSize: 14, color: theme.subtext, display: "flex" }}>

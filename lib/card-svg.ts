@@ -64,7 +64,9 @@ function fillWidth(total: number, pct: number): number {
 
 export function buildCardSvg(
   payload: AnalysisPayload,
-  design: CardDesignState
+  design: CardDesignState,
+  /** Prefer an inlined data-URI avatar so no external fetches happen at view time. */
+  avatarSrc?: string | null
 ): string {
   const theme = CARD_THEMES[design.theme] ?? CARD_THEMES["github-dark"];
   const { user, totals, devScore } = payload;
@@ -93,9 +95,21 @@ export function buildCardSvg(
   const avCx = LEFT_X + AV / 2;
   const avCy = PAD + AV / 2;
   p.push(
-    `<clipPath id="avc"><circle cx="${avCx}" cy="${avCy}" r="${AV / 2}"/></clipPath>`,
-    `<image href="${esc(user.avatar_url)}" x="${LEFT_X}" y="${PAD}" width="${AV}" height="${AV}" preserveAspectRatio="xMidYMid slice" clip-path="url(#avc)"/>`
+    `<clipPath id="avc"><circle cx="${avCx}" cy="${avCy}" r="${AV / 2}"/></clipPath>`
   );
+  if (avatarSrc) {
+    // href + xlink:href for maximum renderer compatibility (GitHub camo, browsers)
+    p.push(
+      `<image href="${esc(avatarSrc)}" xlink:href="${esc(avatarSrc)}" x="${LEFT_X}" y="${PAD}" width="${AV}" height="${AV}" preserveAspectRatio="xMidYMid slice" clip-path="url(#avc)"/>`
+    );
+  } else {
+    // Inline developer silhouette — never an external fetch, never breaks.
+    p.push(
+      `<circle cx="${avCx}" cy="${avCy}" r="${AV / 2}" fill="${theme.chipBg}"/>`,
+      `<circle cx="${avCx}" cy="${avCy - 7}" r="9.5" fill="${theme.subtext}" opacity="0.85"/>`,
+      `<path d="M ${avCx - 15} ${avCy + 22} c 0 -10 7.5 -14.5 15 -14.5 c 7.5 0 15 4.5 15 14.5 z" fill="${theme.subtext}" opacity="0.85" clip-path="url(#avc)"/>`
+    );
+  }
 
   const hasName = Boolean(user.name) && user.name !== user.login;
   const nameY = avCy - (hasName ? 6 : 4);
@@ -110,15 +124,17 @@ export function buildCardSvg(
   }
 
   /* gradient grade badge, top-right: filled chip, inner border, centered text */
-  const grade = devScore.grade;
-  const chipW = Math.max(grade.length * 11 + 28, 48);
-  const chipX = CARD_W - PAD - chipW;
-  const chipY = PAD + (AV - 34) / 2;
-  p.push(
-    `<rect x="${chipX}" y="${chipY}" width="${chipW}" height="34" rx="17" fill="url(#chipGrad)"/>`,
-    `<rect x="${chipX + 1}" y="${chipY + 1}" width="${chipW - 2}" height="32" rx="16" fill="none" stroke="rgba(255,255,255,0.22)" stroke-opacity="0.35"/>`,
-    `<text x="${chipX + chipW / 2}" y="${chipY + 23}" text-anchor="middle" font-family="${MONO}" font-size="16" font-weight="700" fill="#0b0e14">${esc(grade)}</text>`
-  );
+  if (design.showDevScore) {
+    const grade = devScore.grade;
+    const chipW = Math.max(grade.length * 11 + 28, 48);
+    const chipX = CARD_W - PAD - chipW;
+    const chipY = PAD + (AV - 34) / 2;
+    p.push(
+      `<rect x="${chipX}" y="${chipY}" width="${chipW}" height="34" rx="17" fill="url(#chipGrad)"/>`,
+      `<rect x="${chipX + 1}" y="${chipY + 1}" width="${chipW - 2}" height="32" rx="16" fill="none" stroke="rgba(255,255,255,0.22)" stroke-opacity="0.35"/>`,
+      `<text x="${chipX + chipW / 2}" y="${chipY + 23}" text-anchor="middle" font-family="${MONO}" font-size="16" font-weight="700" fill="#0b0e14">${esc(grade)}</text>`
+    );
+  }
 
   /* ------------------------------ hairline divider ----------------------- */
   p.push(
@@ -126,20 +142,26 @@ export function buildCardSvg(
   );
 
   /* ------------------------------- left column --------------------------- */
-  // DEVSCORE
-  const scoreLblY = HEADER_H + 32;
-  const scoreNumY = scoreLblY + 60; // baseline for the 58px number
-  p.push(
-    `<text x="${LEFT_X}" y="${scoreLblY}" font-family="${SANS}" font-size="10" letter-spacing="3" font-weight="600" fill="${theme.subtext}">DEVSCORE</text>`,
-    `<text x="${LEFT_X}" y="${scoreNumY}" font-family="${MONO}" font-size="58" font-weight="700" fill="url(#numGrad)">${devScore.score}</text>`,
-    `<text x="${LEFT_X}" y="${scoreNumY + 16}" font-family="${MONO}" font-size="13" fill="${theme.subtext}">/ 100</text>`
-  );
+  let rowY: number;
+  if (design.showDevScore) {
+    // DEVSCORE
+    const scoreLblY = HEADER_H + 32;
+    const scoreNumY = scoreLblY + 60; // baseline for the 58px number
+    p.push(
+      `<text x="${LEFT_X}" y="${scoreLblY}" font-family="${SANS}" font-size="10" letter-spacing="3" font-weight="600" fill="${theme.subtext}">DEVSCORE</text>`,
+      `<text x="${LEFT_X}" y="${scoreNumY}" font-family="${MONO}" font-size="58" font-weight="700" fill="url(#numGrad)">${devScore.score}</text>`,
+      `<text x="${LEFT_X}" y="${scoreNumY + 16}" font-family="${MONO}" font-size="13" fill="${theme.subtext}">/ 100</text>`
+    );
 
-  const barY = scoreNumY + 26;
-  p.push(
-    `<rect x="${LEFT_X}" y="${barY}" width="${LEFT_W}" height="6" rx="3" fill="rgba(255,255,255,0.08)"/>`,
-    `<rect x="${LEFT_X}" y="${barY}" width="${fillWidth(LEFT_W, devScore.score)}" height="6" rx="3" fill="url(#numGrad)"/>`
-  );
+    const barY = scoreNumY + 26;
+    p.push(
+      `<rect x="${LEFT_X}" y="${barY}" width="${LEFT_W}" height="6" rx="3" fill="rgba(255,255,255,0.08)"/>`,
+      `<rect x="${LEFT_X}" y="${barY}" width="${fillWidth(LEFT_W, devScore.score)}" height="6" rx="3" fill="url(#numGrad)"/>`
+    );
+    rowY = barY + 26; // first baseline
+  } else {
+    rowY = HEADER_H + 32; // stat rows move up to fill the space
+  }
 
   // stat rows on the grid; values right-aligned in mono
   const statRows: Array<[string, string]> = [
@@ -148,7 +170,6 @@ export function buildCardSvg(
     ["MERGED PRS", formatNumber(totals.prsMerged)],
     ["REPOS", formatNumber(totals.originalRepos)],
   ];
-  let rowY = barY + 26; // first baseline
   for (const [label, value] of statRows) {
     p.push(
       `<text x="${LEFT_X}" y="${rowY}" font-family="${SANS}" font-size="10" letter-spacing="2" font-weight="600" fill="${theme.subtext}">${esc(label)}</text>`,
@@ -158,14 +179,16 @@ export function buildCardSvg(
   }
 
   // persona chip, bottom-anchored: chipBg fill + persona-colored inner border
-  const chipH = 36;
-  const perY = CARD_H - PAD - chipH;
-  const per = devScore.persona;
-  const perW = 24 + 14 + per.emoji.length * 16 + per.title.length * 8.6 + 14;
-  p.push(
-    `<rect x="${LEFT_X}" y="${perY}" width="${Math.min(perW, LEFT_W + 20).toFixed(0)}" height="${chipH}" rx="18" fill="${theme.chipBg}" stroke="${per.color}" stroke-opacity="0.55"/>`,
-    `<text x="${LEFT_X + 14}" y="${perY + 24}" font-family="${SANS}" font-size="15" fill="${theme.text}">${per.emoji} ${esc(clampText(per.title, Math.min(perW, LEFT_W + 20) - 42, 15))}</text>`
-  );
+  if (design.showPersona) {
+    const chipH = 36;
+    const perY = CARD_H - PAD - chipH;
+    const per = devScore.persona;
+    const perW = 24 + 14 + per.emoji.length * 16 + per.title.length * 8.6 + 14;
+    p.push(
+      `<rect x="${LEFT_X}" y="${perY}" width="${Math.min(perW, LEFT_W + 20).toFixed(0)}" height="${chipH}" rx="18" fill="${theme.chipBg}" stroke="${per.color}" stroke-opacity="0.55"/>`,
+      `<text x="${LEFT_X + 14}" y="${perY + 24}" font-family="${SANS}" font-size="15" fill="${theme.text}">${per.emoji} ${esc(clampText(per.title, Math.min(perW, LEFT_W + 20) - 42, 15))}</text>`
+    );
+  }
 
   /* ------------------------------ right column --------------------------- */
   let ry = HEADER_H + 32;
@@ -246,5 +269,5 @@ export function buildCardSvg(
     `<text x="${CARD_W - PAD}" y="${CARD_H - 17}" text-anchor="end" font-family="${MONO}" font-size="10" letter-spacing="1" fill="${theme.subtext}">DEVSCORE VISUALIZER</text>`
   );
 
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${CARD_W}" height="${CARD_H}" viewBox="0 0 ${CARD_W} ${CARD_H}">${p.join("\n")}</svg>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="${CARD_W}" height="${CARD_H}" viewBox="0 0 ${CARD_W} ${CARD_H}">${p.join("\n")}</svg>`;
 }

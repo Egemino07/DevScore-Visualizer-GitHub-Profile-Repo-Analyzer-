@@ -6,6 +6,9 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const mono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-jetbrains-mono" });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_APP_URL || "https://github.devscore.app"
+  ),
   title: "DevScore Visualizer — GitHub Profile & Repo Analyzer",
   description:
     "Analyze any GitHub username or repo: compute a 0-100 DevScore, visualize activity metrics, and generate shareable README/social cards.",

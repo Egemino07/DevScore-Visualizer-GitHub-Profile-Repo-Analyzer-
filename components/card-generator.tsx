@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import {
   Check,
@@ -12,7 +12,6 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { Button, Switch } from "./ui";
-import { buildCardSvg } from "@/lib/card-svg";
 import { CARD_THEMES, THEME_ORDER } from "@/lib/card-themes";
 import type { CardDesignState, CardThemeId } from "@/types/github";
 
@@ -39,11 +38,18 @@ export function CardGenerator({ username }: Props) {
   const [copied, setCopied] = useState<"md" | "svg-url" | null>(null);
   const [downloadingPng, setDownloadingPng] = useState(false);
 
+  // Origin is only known on the client. Reading it during render (even behind
+  // a typeof window guard) causes an SSR/client hydration mismatch — resolve
+  // it after mount instead so SSR and first client render agree on "".
+  const [origin, setOrigin] = useState("");
+  useEffect(() => {
+    setOrigin(window.location.origin);
+  }, []);
+
   const markdownUrl = useMemo(() => {
     const show = SHOW_KEYS.filter((s) => state[s.key]).map((s) => s.param).join(",");
-    const origin = typeof window !== "undefined" ? window.location.origin : "";
     return `${origin}/api/card/${encodeURIComponent(username)}?theme=${state.theme}&show=${show || "none"}`;
-  }, [state, username]);
+  }, [state, username, origin]);
 
   const ogUrl = useMemo(() => {
     const show = SHOW_KEYS.filter((s) => state[s.key]).map((s) => s.param).join(",");
@@ -203,23 +209,40 @@ function showString(state: CardDesignState) {
 }
 
 /**
- * The preview shows the exact server-rendered SVG card via <img src>.
- * It re-renders instantly on design changes with no extra JS payload.
+ * The preview shows the exact server-rendered SVG card and the OG PNG via
+ * <img src>. Both are keyed by their URL so they re-render instantly on any
+ * design change — no extra JS payload.
  */
 function CardPreviewFrame({ state }: { state: CardDesignState }) {
-  const src = `/api/card/${encodeURIComponent(state.username)}?theme=${state.theme}&show=${showString(state) || "none"}`;
+  const show = showString(state) || "none";
+  const svgSrc = `/api/card/${encodeURIComponent(state.username)}?theme=${state.theme}&show=${show}`;
+  const pngSrc = `/api/og/${encodeURIComponent(state.username)}?theme=${state.theme}&show=${show}`;
   return (
-    <Link href={src} target="_blank" rel="noreferrer" className="block">
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        key={src}
-        src={src}
-        alt="DevScore card preview"
-        width={880}
-        height={420}
-        className="w-full h-auto"
-        loading="lazy"
-      />
-    </Link>
+    <div>
+      <Link href={svgSrc} target="_blank" rel="noreferrer" className="block">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          key={svgSrc}
+          src={svgSrc}
+          alt="DevScore SVG card preview"
+          width={880}
+          height={420}
+          className="w-full h-auto"
+          loading="lazy"
+        />
+      </Link>
+      <Link href={pngSrc} target="_blank" rel="noreferrer" className="block border-t border-white/10">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          key={pngSrc}
+          src={pngSrc}
+          alt="DevScore PNG card preview"
+          width={880}
+          height={420}
+          className="w-full h-auto"
+          loading="lazy"
+        />
+      </Link>
+    </div>
   );
 }
