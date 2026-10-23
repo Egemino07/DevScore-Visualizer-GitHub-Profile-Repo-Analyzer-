@@ -17,6 +17,9 @@ export const metadata: Metadata = {
     description: "Compute your DevScore and generate shareable developer cards.",
     images: [{ url: "/api/og/torvalds", width: 880, height: 420 }],
   },
+  verification: {
+    google: "rrIKxSq9-YTVFH-2YlXcZlJhhwP__9eQkjOIJyDzsNs",
+  },
 };
 
 export default function RootLayout({
