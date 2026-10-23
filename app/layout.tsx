@@ -7,7 +7,7 @@ const mono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-jetbrains-mo
 
 export const metadata: Metadata = {
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_APP_URL || "https://github.devscore.app"
+    process.env.NEXT_PUBLIC_APP_URL || "https://devscore-visualizer.vercel.app"
   ),
   title: "DevScore Visualizer — GitHub Profile & Repo Analyzer",
   description:

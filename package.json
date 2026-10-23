@@ -11,8 +11,9 @@
   "dependencies": {
     "@octokit/graphql": "^8.0.1",
     "@octokit/rest": "^20.1.1",
-    "clsx": "^2.1.1",
+    "@resvg/resvg-wasm": "^2.6.2",
     "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
     "framer-motion": "^14.5.0",
     "lucide-react": "^1.61.0",
     "next": "^16.4.2",
@@ -22,15 +23,22 @@
     "tailwind-merge": "^2.3.0"
   },
   "devDependencies": {
+    "@opennextjs/cloudflare": "1.20.12",
     "@tailwindcss/postcss": "^4.3.3",
     "@types/node": "^20.14.0",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "postcss": "^8.5.31",
     "tailwindcss": "^4.3.3",
-    "typescript": "^5.4.5"
+    "typescript": "^5.4.5",
+    "wrangler": "^4.152.0"
   },
   "overrides": {
-    "next": { "postcss": "^8.5.31" }
+    "next": {
+      "postcss": "^8.5.31"
+    },
+    "@node-minify/core": {
+      "glob": "^10.5.0"
+    }
   }
 }
